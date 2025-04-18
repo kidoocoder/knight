@@ -1,7 +1,7 @@
 {
   "name": "Telegram Music Bot",
   "description": "A Telegram music bot using Pyrogram and Py-TgCalls to play YouTube audio in voice chats without requiring cookies.",
-  "repository": "https://github.com/yourusername/telegram-music-bot",
+  "repository": "https://github.com/kidoocoder/knight",
   "logo": "https://raw.githubusercontent.com/yourusername/telegram-music-bot/main/generated-icon.png",
   "keywords": ["python", "telegram", "bot", "music", "youtube", "voice-chat", "pyrogram", "py-tgcalls"],
   "env": {
