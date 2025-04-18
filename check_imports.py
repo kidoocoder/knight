@@ -4,15 +4,16 @@ print('\n'.join(sys.path))
 
 print('\nTrying to import PyTgCalls:')
 try:
-    from py_tgcalls import PyTgCalls
+    from pytgcalls import PyTgCalls
     print('Successfully imported PyTgCalls')
 except ImportError as e:
-    print('ImportError:', e)
-    try:
-        import py_tgcalls
-        print('Module exists but wrong import path')
-    except ImportError:
-        print('Module does not exist')
+    print('ImportError from pytgcalls:', e)
+    
+try:
+    import pytgcalls
+    print('Successfully imported pytgcalls module')
+except ImportError as e:
+    print('ImportError pytgcalls module:', e)
 
 print('\nChecking ntgcalls package:')
 try:

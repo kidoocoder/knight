@@ -10,7 +10,10 @@ except ImportError:
 
 try:
     from pytgcalls import PyTgCalls
-    print("PyTgCalls installed:", PyTgCalls.__version__)
+    # PyTgCalls class might not have the __version__ attribute
+    import pytgcalls
+    version = getattr(pytgcalls, "__version__", "unknown version")
+    print("PyTgCalls installed:", version)
 except ImportError:
     print("PyTgCalls not installed")
 
