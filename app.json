@@ -57,7 +57,7 @@
   "formation": {
     "web": {
       "quantity": 1,
-      "size": "eco"
+      "size": "Standard-1X"
     }
   },
   "stack": "heroku-22",
