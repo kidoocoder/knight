@@ -9,7 +9,7 @@ except ImportError:
     print("Pyrogram not installed")
 
 try:
-    from py_tgcalls import PyTgCalls
+    from pytgcalls import PyTgCalls
     print("PyTgCalls installed:", PyTgCalls.__version__)
 except ImportError:
     print("PyTgCalls not installed")
