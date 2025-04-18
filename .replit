@@ -1,0 +1,57 @@
+modules = ["python-3.11"]
+
+[nix]
+channel = "stable-24_05"
+
+[deployment]
+deploymentTarget = "autoscale"
+run = ["gunicorn", "--bind", "0.0.0.0:5000", "main:app"]
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "python"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "gunicorn --bind 0.0.0.0:5000 --reuse-port --reload main:app"
+waitForPort = 5000
+
+[[workflows.workflow]]
+name = "python"
+author = "agent"
+
+[workflows.workflow.metadata]
+agentRequireRestartOnSave = false
+
+[[workflows.workflow.tasks]]
+task = "packager.installForAll"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "pip list | grep -E 'pyrogram|pytgcalls|yt-dlp|python-dotenv' || echo \"Missing core dependencies\"; python -c \"import inspect; import sys; with open('bot.py', 'r') as f: code = f.read(); print('Bot Structure Analysis:'); print('-' * 20); print('Main Client Setup:', 'bot' in code and 'user' in code); print('Command Handlers:', 'on_message' in code); print('Callback Handlers:', 'on_callback_query' in code); print('Stream Functions:', 'start_streaming' in code)\" 2>/dev/null || echo \"Error analyzing bot code\""
+
+[[ports]]
+localPort = 5000
+externalPort = 80

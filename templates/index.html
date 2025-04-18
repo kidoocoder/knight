@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Telegram Music Bot</title>
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    <style>
+        body {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        .bot-status {
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+        .features-list {
+            margin-top: 2rem;
+        }
+        .command-card {
+            height: 100%;
+        }
+        .footer {
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--bs-secondary);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4">🎵 Telegram Music Bot</h1>
+                <p class="lead">Play YouTube music in Telegram voice chats with simple commands</p>
+                
+                <div class="bot-status mt-4">
+                    <div class="alert {% if bot_status %}alert-success{% else %}alert-warning{% endif %}" id="status-alert">
+                        {% if bot_status %}
+                            <strong>Bot Status:</strong> Running ✅
+                        {% else %}
+                            <strong>Bot Status:</strong> Not Running ❌
+                        {% endif %}
+                    </div>
+                </div>
+                
+                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                    <button class="btn btn-primary btn-lg px-4 gap-3" id="start-button" {% if bot_status %}disabled{% endif %}>
+                        Start Bot
+                    </button>
+                    <a href="https://t.me/your_bot_username" class="btn btn-outline-secondary btn-lg px-4" target="_blank">
+                        Open in Telegram
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row features-list">
+            <div class="col-12">
+                <h2 class="text-center mb-4">📋 Available Commands</h2>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card command-card">
+                    <div class="card-body">
+                        <h5 class="card-title">/play</h5>
+                        <p class="card-text">Play a song by name or YouTube URL in a voice chat</p>
+                        <p class="card-text text-muted">Example: /play despacito</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card command-card">
+                    <div class="card-body">
+                        <h5 class="card-title">/search</h5>
+                        <p class="card-text">Search for a song on YouTube</p>
+                        <p class="card-text text-muted">Example: /search shape of you</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card command-card">
+                    <div class="card-body">
+                        <h5 class="card-title">/queue</h5>
+                        <p class="card-text">Show the current music queue</p>
+                        <p class="card-text text-muted">Example: /queue</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card command-card">
+                    <div class="card-body">
+                        <h5 class="card-title">/skip</h5>
+                        <p class="card-text">Skip to the next song in the queue</p>
+                        <p class="card-text text-muted">Example: /skip</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card command-card">
+                    <div class="card-body">
+                        <h5 class="card-title">/pause & /resume</h5>
+                        <p class="card-text">Pause or resume the current song</p>
+                        <p class="card-text text-muted">Example: /pause</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="card command-card">
+                    <div class="card-body">
+                        <h5 class="card-title">/stop</h5>
+                        <p class="card-text">Stop playing and clear the queue</p>
+                        <p class="card-text text-muted">Example: /stop</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h3>🚀 Setup Guide</h3>
+                    </div>
+                    <div class="card-body">
+                        <ol class="list-group list-group-numbered mb-3">
+                            <li class="list-group-item">Start your bot by clicking the "Start Bot" button above</li>
+                            <li class="list-group-item">Add the bot to your Telegram group</li>
+                            <li class="list-group-item">Start a voice chat in your group</li>
+                            <li class="list-group-item">Use the /play command to start playing music</li>
+                        </ol>
+                        <div class="alert alert-info">
+                            <strong>Note:</strong> The bot requires a voice chat to be active before it can play music!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row footer">
+            <div class="col-12 text-center">
+                <p>Created with ❤️ using Pyrogram and PyTgCalls</p>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const startButton = document.getElementById('start-button');
+            const statusAlert = document.getElementById('status-alert');
+            
+            startButton.addEventListener('click', function() {
+                startButton.disabled = true;
+                startButton.innerHTML = 'Starting...';
+                
+                fetch('/start_bot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'starting' || data.status === 'already_running') {
+                        // Poll for status
+                        pollStatus();
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    startButton.disabled = false;
+                    startButton.innerHTML = 'Start Bot';
+                });
+            });
+            
+            function pollStatus() {
+                let interval = setInterval(function() {
+                    fetch('/bot_status')
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.running) {
+                                statusAlert.className = 'alert alert-success';
+                                statusAlert.innerHTML = '<strong>Bot Status:</strong> Running ✅';
+                                startButton.disabled = true;
+                                startButton.innerHTML = 'Bot is Running';
+                                clearInterval(interval);
+                            } else {
+                                startButton.innerHTML = 'Starting Bot...';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+                }, 2000);
+            }
+            
+            // Check status on page load
+            {% if not bot_status %}
+            fetch('/bot_status')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.running) {
+                        statusAlert.className = 'alert alert-success';
+                        statusAlert.innerHTML = '<strong>Bot Status:</strong> Running ✅';
+                        startButton.disabled = true;
+                        startButton.innerHTML = 'Bot is Running';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            {% endif %}
+        });
+    </script>
+</body>
+</html>
