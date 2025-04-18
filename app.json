@@ -1,0 +1,66 @@
+{
+  "name": "Telegram Music Bot",
+  "description": "A Telegram music bot using Pyrogram and Py-TgCalls to play YouTube audio in voice chats without requiring cookies.",
+  "repository": "https://github.com/yourusername/telegram-music-bot",
+  "logo": "https://raw.githubusercontent.com/yourusername/telegram-music-bot/main/generated-icon.png",
+  "keywords": ["python", "telegram", "bot", "music", "youtube", "voice-chat", "pyrogram", "py-tgcalls"],
+  "env": {
+    "API_ID": {
+      "description": "Get this value from https://my.telegram.org/apps",
+      "required": true
+    },
+    "API_HASH": {
+      "description": "Get this value from https://my.telegram.org/apps",
+      "required": true
+    },
+    "BOT_TOKEN": {
+      "description": "Get this from @BotFather",
+      "required": true
+    },
+    "SESSION_STRING": {
+      "description": "A Pyrogram session string for a user account (needed for joining voice chats)",
+      "required": true
+    },
+    "SESSION_SECRET": {
+      "description": "A random string for Flask session security",
+      "required": true,
+      "generator": "secret"
+    },
+    "COMMAND_PREFIXES": {
+      "description": "Command prefixes separated by spaces (e.g., '! / .')",
+      "required": false,
+      "value": "! / ."
+    },
+    "SUDO_USERS": {
+      "description": "Telegram user IDs who can use admin commands (separated by space)",
+      "required": false
+    },
+    "MAX_QUEUE_SIZE": {
+      "description": "Maximum songs in queue per chat",
+      "required": false,
+      "value": "10"
+    },
+    "DEFAULT_LANG": {
+      "description": "Default language code",
+      "required": false,
+      "value": "en"
+    }
+  },
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "https://github.com/jonathanong/heroku-buildpack-ffmpeg-latest.git"
+    }
+  ],
+  "formation": {
+    "web": {
+      "quantity": 1,
+      "size": "eco"
+    }
+  },
+  "stack": "heroku-22",
+  "success_url": "/",
+  "addons": []
+}
