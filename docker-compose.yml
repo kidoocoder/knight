@@ -1,0 +1,21 @@
+version: '3'
+
+services:
+  telegram-music-bot:
+    build: .
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./downloads:/app/downloads
+    environment:
+      - API_ID=${API_ID}
+      - API_HASH=${API_HASH}
+      - BOT_TOKEN=${BOT_TOKEN}
+      - SESSION_STRING=${SESSION_STRING}
+      - SESSION_SECRET=${SESSION_SECRET}
+      - COMMAND_PREFIXES=${COMMAND_PREFIXES:-! / .}
+      - SUDO_USERS=${SUDO_USERS}
+      - MAX_QUEUE_SIZE=${MAX_QUEUE_SIZE:-10}
+      - DEFAULT_LANG=${DEFAULT_LANG:-en}
+      - TEMP_DOWNLOAD_DIRECTORY=${TEMP_DOWNLOAD_DIRECTORY:-./downloads/}
+    restart: unless-stopped

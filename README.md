@@ -85,3 +85,53 @@ The built-in web interface provides:
 - Easy bot startup
 - Command reference
 - Setup instructions
+
+## Docker Deployment
+
+You can also deploy this bot using Docker:
+
+### Using Docker Compose (Recommended)
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/telegram-music-bot.git
+cd telegram-music-bot
+```
+
+2. Create a `.env` file with your credentials:
+```bash
+cp .env.example .env
+nano .env  # Edit with your credentials
+```
+
+3. Build and start using Docker Compose:
+```bash
+docker-compose up -d
+```
+
+### Using Docker Directly
+
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/telegram-music-bot.git
+cd telegram-music-bot
+```
+
+2. Build the Docker image:
+```bash
+docker build -t telegram-music-bot .
+```
+
+3. Run the container:
+```bash
+docker run -d -p 5000:5000 \
+  -e API_ID=your_api_id \
+  -e API_HASH=your_api_hash \
+  -e BOT_TOKEN=your_bot_token \
+  -e SESSION_STRING=your_session_string \
+  -e SESSION_SECRET=your_session_secret \
+  --name telegram-music-bot \
+  telegram-music-bot
+```
+
+4. Access the web interface at http://localhost:5000
