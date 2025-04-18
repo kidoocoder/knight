@@ -62,5 +62,13 @@
   },
   "stack": "heroku-22",
   "success_url": "/",
-  "addons": []
+  "addons": [],
+  "scripts": {
+    "postdeploy": "echo 'Application deployed successfully!'"
+  },
+  "cron": {
+    "type": "web",
+    "command": "echo 'Keeping dyno alive'",
+    "schedule": "*/30 * * * *"
+  }
 }

@@ -18,4 +18,6 @@ services:
       - MAX_QUEUE_SIZE=${MAX_QUEUE_SIZE:-10}
       - DEFAULT_LANG=${DEFAULT_LANG:-en}
       - TEMP_DOWNLOAD_DIRECTORY=${TEMP_DOWNLOAD_DIRECTORY:-./downloads/}
+      - PORT=${PORT:-5000}
+      - WEB_CONCURRENCY=${WEB_CONCURRENCY:-2}
     restart: unless-stopped
